@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 
 struct ContentView: View {
-    @ObjectBinding var viewModel = ContentViewModel()
+    @ObservedObject var viewModel = ContentViewModel()
     
     var body: some View {
         VStack {
@@ -22,13 +22,9 @@ struct ContentView: View {
     }
 }
 
-class ContentViewModel: BindableObject {
-    var result: String = "" {
-        willSet {
-            willChange.send()
-        }
-    }
-    var willChange = PassthroughSubject<Void, Never>()
+class ContentViewModel: ObservableObject {
+    @Published var result: String = ""
+
     var calculate = PassthroughSubject<String, Never>()
     
     init() {
